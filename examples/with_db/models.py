@@ -2,7 +2,7 @@ import os.path
 from datetime import datetime
 
 import sqlalchemy
-import sqlalchemy.orm
+from sqlalchemy.ext.declarative import declarative_base
 
 def create_engine():
     """Create the default engine for this set of models."""
@@ -12,21 +12,23 @@ def create_engine():
         )
 
 def create_session_class():
+    """Create a class that we can use to instantiate new sessions."""
     return sqlalchemy.orm.sessionmaker(bind=create_engine())
     
-metadata = sqlalchemy.MetaData()
+    
+# This application's models:
+Base = declarative_base()
 
-# Define the tables
-blog_entries = sqlalchemy.Table(
-    'blogentries', metadata,
-    sqlalchemy.Column('id', sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column('title', sqlalchemy.Unicode(64)),
-    sqlalchemy.Column('date', sqlalchemy.DateTime()),
-    sqlalchemy.Column('content', sqlalchemy.UnicodeText())
-)
-
-# Define the ORM-mapped classes
-class BlogEntry(object):
+class BlogEntry(Base):
+    """One entry in our blog."""
+    
+    __tablename__ = 'blogentries'
+    
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
+    title = sqlalchemy.Column(sqlalchemy.Unicode(64))
+    date = sqlalchemy.Column(sqlalchemy.DateTime())
+    content = sqlalchemy.Column(sqlalchemy.UnicodeText())
+    
     def __init__(self, title, date=None, content=""):
         self.title = title
         self.date = date if date is not None else datetime.now()
@@ -35,12 +37,10 @@ class BlogEntry(object):
     def __unicode__(self):
         return self.title
         
-# Bind the classes with the tables.
-sqlalchemy.orm.mapper(BlogEntry, blog_entries)
-
+        
 if __name__ == '__main__':
     engine = create_engine()
-    metadata.create_all(engine)
+    Base.metadata.create_all(engine)
     
     # Create a couple of random entries
     session = create_session_class()()
