@@ -51,5 +51,6 @@ if __name__ == '__main__':
         entries.append(entry)
         session.add(entry)
         
-    if session.dirty: session.commit()
+    if session.dirty or session.new: 
+        session.commit()
         
