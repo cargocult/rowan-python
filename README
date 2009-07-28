@@ -1,0 +1,35 @@
+Rowan Framework
+
+
+Rowan is a simple Microframework for Python using the WSGI standard.
+
+It is designed as an experiment in creating a framework based around a
+tree-structure, as using in (particularly game) AI.
+
+Each element in the tree has the same structure: it takes a request
+object and either returns a response object or raises an
+error. Branches in the tree might dispatch a request based on a URL,
+for example, or might have a fallback in case their preferred child
+node raises an error.
+
+The request object is also particularly interesting, any piece of data
+is stores can be temporarily overridden. Because the access to all
+data is via these request objects, nodes in the tree can effectively
+change the execution context for their children. This allows subtrees
+to be more extensively reused without further customization: they can
+just set the properties they need to run, and inherit anything they
+don't have a strong opinion about.
+
+The software is being uploaded as an illustration of what I'm
+thinking about. It isn't intended to be either finished, or
+production ready.
+
+The code was originally written to use the Django webframework as a
+service provider (using its template language, and ORM, for
+example). Recently, however, I've started replacing these with Jinja2
+and SQLAlchemy. The example provided in the source code requires
+Jinja2, which you can install with:
+
+$ easy_install jinja2
+
+Get in touch with any observations or questions.

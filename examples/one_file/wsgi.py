@@ -2,8 +2,8 @@ if __name__ == '__main__':
     import sys; sys.path.append('.')
 
 from rowan.core.application import Application
-import controller
-application = Application(controller.root)
+from root import root
+application = Application(root)
 
 # A debugging server
 if __name__ == '__main__':
