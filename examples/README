@@ -1,0 +1,16 @@
+This directory contains example web applications that your can run to 
+show the framework in operation. Each directory holds a file called wsgi.py
+which can be used from a WSGI compliant interface, or can be run as a 
+script (they boot Python's wsgiref server for testing).
+
+They are intended to be run by executing the wsgi.py cript from the
+top level directory:
+
+% python examples/one_file/wsgi.py
+
+Each example adds '.' to sys.path, so that the rowan library can be 
+imported.
+
+Each example has a root.py file in which the root controller of the sample is
+defined (called 'root' by convention). If you want to use a sample as part of a
+bigger project, just use that root controller in a bigger controller tree.
