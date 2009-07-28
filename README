@@ -4,7 +4,7 @@ Rowan Framework
 Rowan is a simple Microframework for Python using the WSGI standard.
 
 It is designed as an experiment in creating a framework based around a
-tree-structure, as using in (particularly game) AI.
+tree-structure, as used in (particularly game) AI.
 
 Each element in the tree has the same structure: it takes a request
 object and either returns a response object or raises an
