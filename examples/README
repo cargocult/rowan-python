@@ -14,3 +14,6 @@ imported.
 Each example has a root.py file in which the root controller of the sample is
 defined (called 'root' by convention). If you want to use a sample as part of a
 bigger project, just use that root controller in a bigger controller tree.
+
+Examples might use third party libraries. In particular I'm using: Jinja2 and
+SQLAlchemy.

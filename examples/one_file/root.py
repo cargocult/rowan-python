@@ -15,7 +15,7 @@ def greet_someone(request):
 
 def shock_someone(request):
     logging.getLogger('shock_someone').debug('Called')
-    template = request.services.template.get_template('message.html')
+    template = request.services.templates.get_template('message.html')
     content = template.render(message=request.settings.shock)
     return http.HttpResponse(content.encode('ascii', 'ignore'))
 
@@ -49,7 +49,7 @@ def _create_root_controller():
         
     root = SetParams(site, 
         settings__shock='loud shouting', 
-        services__template=environment
+        services__templates=environment
         )
     return root
     
