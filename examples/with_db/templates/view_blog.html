@@ -14,6 +14,8 @@
     <h2>{{entry.title}}</h2>
     <h3>{{entry.date}}</h3>
     {{entry.content}}
+    <p>{{entry.comments|count}} Comment{% if entry.comments|count != 1 %}s{% endif %}</p>
+    <p>Categories: {% for category in entry.categories %}{{category}}{% if not loop.last %}, {% endif %}{% endfor %}</p>
   </div>
   {% endfor %}
   
