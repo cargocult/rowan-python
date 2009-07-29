@@ -14,7 +14,9 @@ Using Rowan
 .. toctree::
    :maxdepth: 3
    
+   mvc
    tree
+   acknowledgements
 
 
 Details and API
@@ -29,7 +31,7 @@ Details and API
    blackboard
 
 Indices and Tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`
