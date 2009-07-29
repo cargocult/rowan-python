@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <title>Blog</title>
+</head>
+<body>
+  <h1 id="blog">Blog</h1>
+  
+  {% for entry in entries %}
+  <div class="entry">
+    <h2>{{entry.title}}</h2>
+    <h3>{{entry.date}}</h3>
+    {{entry.content}}
+    <p>{{entry.comments|count}} Comment{% if entry.comments|count != 1 %}s{% endif %}</p>
+    <p>Categories: {% for category in entry.categories %}{{category}}{% if not loop.last %}, {% endif %}{% endfor %}</p>
+  </div>
+  {% endfor %}
+  
+</body>
+</html>

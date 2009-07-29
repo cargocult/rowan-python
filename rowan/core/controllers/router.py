@@ -1,3 +1,8 @@
+"""
+This module defines a controller to map URLs to other controllers using 
+regular expressions.
+"""
+
 from __future__ import with_statement
 import logging
 import re
@@ -19,6 +24,7 @@ class Router(object):
             (re.compile(re_string), controller)
             for re_string, controller in mappings
             ]
+        self.controllers = mappings.values()
         
     def __call__(self, request):
         self.logger.debug("Routing path: %s" % request.path)
@@ -42,3 +48,10 @@ class Router(object):
                     return controller(request)
                     
         raise http.Http404("No matching URL found.")
+
+    def _get_children(self):
+        return [self.controllers]
+    children = property(
+        _get_children, 
+        doc="A list of the controllers registered with this router."
+        )

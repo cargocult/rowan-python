@@ -39,3 +39,7 @@ class Fallback(object):
         if not err: err = http.Http500("No controllers in Fallback.")
         self.logger.debug("No more valid controllers - returning.")
         raise err
+
+    def _get_children(self):
+        return self.controllers
+    children = property(_get_children)

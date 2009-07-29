@@ -1,0 +1,9 @@
+This example uses both Jinja2 and SQLAlchemy. It is configured to use a
+sqlite3 database by default, but should work with a more complex query string.
+
+The file naming is borrowed from Django, so models are in models.py, individual
+page handlers are in views.py, and the URL routing instructions are in urls.py.
+
+To create the database tables and populate them with some random initial data,
+run the models.py file as a script. You can then run the server (wsgi.py) and
+view the created entries on the root url.

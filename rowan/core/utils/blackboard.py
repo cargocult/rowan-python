@@ -34,13 +34,13 @@ class Blackboard(object):
         that any changes you make to the request are limited to the nodes
         further down the tree. The keyword arguments for this method
         are the settings you want to change. Keywords can be given in
-        a__b format, where the __ indicates nesting. So a__b=2 finds
-        the 'a' property of this blackboard and looks in that object for a
-        property called 'b', which it sets to 2. These nested objects
+        ``a__b`` format, where the ``__`` indicates nesting. So ``a__b=2`` 
+        finds the ``a`` property of this blackboard and looks in that object 
+        for a property called ``b``, which it sets to 2. These nested objects
         don't need to be blackboards, the blackboard will manage any
         kind of object at that point.
         
-        If an setting isn't already present, it will be created by
+        If a setting isn't already present, it will be created by
         this blackboard, intermediate objects given with nested keys
         will be created as empty blackboards, if they don't already exist.
         """
