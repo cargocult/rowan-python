@@ -20,6 +20,7 @@ def create_session_class():
 # This application's models:
 Base = declarative_base()
 
+# Join table for M2M between categories and blog entries.
 entry_categories = db.Table('entry_categories', Base.metadata,
     db.Column('blog_entry_id', db.Integer, db.ForeignKey('blogentries.id')),
     db.Column('cateogry_id', db.Integer, db.ForeignKey('categories.id')),
@@ -31,7 +32,7 @@ class Category(Base):
     __tablename__ = 'categories'
     
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.Unicode(64))
+    title = db.Column(db.Unicode(64), nullable=False, unique=True)
     
     def __init__(self, title):
         self.title = title
@@ -45,9 +46,9 @@ class BlogEntry(Base):
     __tablename__ = 'blogentries'
     
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.Unicode(64))
+    title = db.Column(db.Unicode(64), nullable=False)
     date = db.Column(db.DateTime())
-    content = db.Column(db.UnicodeText())
+    content = db.Column(db.UnicodeText(), nullable=False)
     
     categories = orm.relation(
         Category, secondary=entry_categories, backref='entries'
@@ -63,11 +64,12 @@ class BlogEntry(Base):
 
 class Comment(Base):
     """A comment on one blog entry."""
+    
     __tablename__ = 'comments'
     
     id = db.Column(db.Integer, primary_key=True)    
     date = db.Column(db.DateTime())
-    content = db.Column(db.UnicodeText())
+    content = db.Column(db.UnicodeText(), nullable=False)
     
     # Define the relationship between database tables and between classes.
     blog_entry_id = db.Column(db.Integer, db.ForeignKey('blogentries.id'))

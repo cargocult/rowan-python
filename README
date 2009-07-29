@@ -27,9 +27,6 @@ production ready.
 The code was originally written to use the Django webframework as a
 service provider (using its template language, and ORM, for
 example). Recently, however, I've started replacing these with Jinja2
-and SQLAlchemy. The example provided in the source code requires
-Jinja2, which you can install with:
-
-$ easy_install jinja2
+and SQLAlchemy. 
 
 Get in touch with any observations or questions.
