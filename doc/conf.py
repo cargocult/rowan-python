@@ -27,10 +27,10 @@ sys.path.append('..') # So we can run the make file and have it find the code.
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.todo', 'sphinx.ext.coverage']
+extensions = ['sphinx.ext.autodoc']
 
 # Add any paths that contain templates here, relative to this directory.
-templates_path = []
+templates_path = ['templates']
 
 # The suffix of source filenames.
 source_suffix = '.rst'
@@ -69,7 +69,7 @@ release = '0.1'
 
 # List of directories, relative to source directory, that shouldn't be searched
 # for source files.
-exclude_trees = ['_build']
+exclude_trees = ['build']
 
 # The reST default role (used for this markup: `text`) to use for all documents.
 #default_role = None
@@ -92,17 +92,10 @@ pygments_style = 'sphinx'
 # Options for HTML output
 # -----------------------
 
-# The theme to use for HTML and HTML Help pages.  Major themes that come with
-# Sphinx are currently 'default' and 'sphinxdoc'.
-html_theme = 'default'
-
-# Theme options are theme-specific and customize the look and feel of a theme
-# further.  For a list of options available for each theme, see the
-# documentation.
-#html_theme_options = {}
-
-# Add any paths that contain custom themes here, relative to this directory.
-#html_theme_path = []
+# The style sheet to use for HTML and HTML Help pages. A file of that name
+# must exist either in Sphinx' static/ path, or in one of the custom paths
+# given in html_static_path.
+html_style = 'default.css'
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
@@ -123,7 +116,7 @@ html_theme = 'default'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = []
+html_static_path = ['static']
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -149,8 +142,8 @@ html_static_path = []
 # If true, the index is split into individual pages for each letter.
 #html_split_index = False
 
-# If true, links to the reST sources are added to the pages.
-html_show_sourcelink = False
+# If true, the reST sources are included in the HTML build as _sources/<name>.
+html_copy_source = False
 
 # If true, an OpenSearch description file will be output, and all pages will
 # contain a <link> tag referring to it.  The value of this option must be the
@@ -161,7 +154,7 @@ html_show_sourcelink = False
 #html_file_suffix = ''
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'rowan_help'
+htmlhelp_basename = 'Rowandoc'
 
 
 # Options for LaTeX output
