@@ -17,3 +17,8 @@ class SetParams(object):
             )
         with request.set(**self.kws):
             return self.controller(request)
+            
+    def _get_children(self):
+        return [self.controller]
+    children = property(_get_children)
+    

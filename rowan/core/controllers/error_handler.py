@@ -34,3 +34,7 @@ class ErrorHandler(object):
             "<html><body><h1>%s</h1></body></html>" % error.status_code_string,
             status_code=error.status_code
             )
+
+    def _get_children(self):
+        return [self.controller]
+    children = property(_get_children)

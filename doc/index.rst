@@ -2,15 +2,33 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Rowan's documentation!
-=================================
+Rowan Microframework
+====================
 
-Contents:
+Rowan is a web micro-framework in Python using the WSGI standard for
+communicating with a web server.
+
+Using Rowan
+-----------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
+   
+   tree
 
-Indices and tables
+
+Details and API
+---------------
+   
+.. toctree::
+   :maxdepth: 1
+   
+   controllers
+   http
+   application
+   blackboard
+
+Indices and Tables
 ==================
 
 * :ref:`genindex`
