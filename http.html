@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Requests, Responses and Errors &mdash; Rowan v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Rowan v0.1 documentation" href="index.html" />
+    <link rel="next" title="Application" href="application.html" />
+    <link rel="prev" title="Basic Controllers" href="controllers.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="application.html" title="Application"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="controllers.html" title="Basic Controllers"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Rowan v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="requests-responses-and-errors">
+<h1>Requests, Responses and Errors<a class="headerlink" href="#requests-responses-and-errors" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-rowan.core.http">
+<h2>API<a class="headerlink" href="#module-rowan.core.http" title="Permalink to this headline">¶</a></h2>
+<p>This module contains the HTTPResponse, HTTPRequest and HTTPError classes.</p>
+<dl class="class">
+<dt id="rowan.core.http.HttpRequest">
+<em class="property">
+class </em><tt class="descclassname">rowan.core.http.</tt><tt class="descname">HttpRequest</tt><big>(</big><em>wsgi_env</em><big>)</big><a class="headerlink" href="#rowan.core.http.HttpRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a title="rowan.core.utils.blackboard.Blackboard" class="reference external" href="blackboard.html#rowan.core.utils.blackboard.Blackboard"><tt class="xref docutils literal"><span class="pre">rowan.core.utils.blackboard.Blackboard</span></tt></a></p>
+<dl class="attribute">
+<dt id="rowan.core.http.HttpRequest.body_raw">
+<tt class="descname">body_raw</tt><a class="headerlink" href="#rowan.core.http.HttpRequest.body_raw" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="rowan.core.http.HttpResponse">
+<em class="property">
+class </em><tt class="descclassname">rowan.core.http.</tt><tt class="descname">HttpResponse</tt><big>(</big><em>content</em>, <em>content_type='text/html'</em>, <em>status_code=200</em><big>)</big><a class="headerlink" href="#rowan.core.http.HttpResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a title="rowan.core.http.Statused" class="reference internal" href="#rowan.core.http.Statused"><tt class="xref docutils literal"><span class="pre">rowan.core.http.Statused</span></tt></a></p>
+<dl class="attribute">
+<dt id="rowan.core.http.HttpResponse.headers">
+<tt class="descname">headers</tt><a class="headerlink" href="#rowan.core.http.HttpResponse.headers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="rowan.core.http.HttpError">
+<em class="property">
+class </em><tt class="descclassname">rowan.core.http.</tt><tt class="descname">HttpError</tt><big>(</big><em>message=''</em>, <em>status_code=None</em><big>)</big><a class="headerlink" href="#rowan.core.http.HttpError" title="Permalink to this definition">¶</a></dt>
+<dd>Bases: <tt class="xref docutils literal"><span class="pre">exceptions.Exception</span></tt>, <a title="rowan.core.http.Statused" class="reference internal" href="#rowan.core.http.Statused"><tt class="xref docutils literal"><span class="pre">rowan.core.http.Statused</span></tt></a></dd></dl>
+
+<dl class="class">
+<dt id="rowan.core.http.Statused">
+<em class="property">
+class </em><tt class="descclassname">rowan.core.http.</tt><tt class="descname">Statused</tt><big>(</big><em>status_code</em><big>)</big><a class="headerlink" href="#rowan.core.http.Statused" title="Permalink to this definition">¶</a></dt>
+<dd><p>A base class for both kinds of response, normal and exceptional. Both
+need to hold the HTTP status code, so this base class provides that
+functionality.</p>
+<dl class="attribute">
+<dt id="rowan.core.http.Statused.status_code_string">
+<tt class="descname">status_code_string</tt><a class="headerlink" href="#rowan.core.http.Statused.status_code_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">Requests, Responses and Errors</a><ul>
+<li><a class="reference external" href="#module-rowan.core.http">API</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="controllers.html"
+                                  title="previous chapter">Basic Controllers</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="application.html"
+                                  title="next chapter">Application</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="application.html" title="Application"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="controllers.html" title="Basic Controllers"
+             >previous</a> |</li>
+        <li><a href="index.html">Rowan v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Ian Millington.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>

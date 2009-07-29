@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Basic Controllers &mdash; Rowan v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Rowan v0.1 documentation" href="index.html" />
+    <link rel="next" title="Requests, Responses and Errors" href="http.html" />
+    <link rel="prev" title="The Rowan Tree" href="tree.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="http.html" title="Requests, Responses and Errors"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tree.html" title="The Rowan Tree"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Rowan v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="basic-controllers">
+<h1>Basic Controllers<a class="headerlink" href="#basic-controllers" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="fallback">
+<h2>Fallback<a class="headerlink" href="#fallback" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="parameter-setting">
+<h2>Parameter Setting<a class="headerlink" href="#parameter-setting" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="routing-urls">
+<h2>Routing URLS<a class="headerlink" href="#routing-urls" title="Permalink to this headline">¶</a></h2>
+<p>The router maps URLs to controllers.</p>
+<div class="section" id="module-rowan.core.controllers.router">
+<h3>API<a class="headerlink" href="#module-rowan.core.controllers.router" title="Permalink to this headline">¶</a></h3>
+<p>This module defines a controller to map URLs to other controllers using 
+regular expressions.</p>
+<dl class="class">
+<dt id="rowan.core.controllers.router.Router">
+<em class="property">
+class </em><tt class="descclassname">rowan.core.controllers.router.</tt><tt class="descname">Router</tt><big>(</big><em>*mappings</em><big>)</big><a class="headerlink" href="#rowan.core.controllers.router.Router" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispatches requests based on the requested path.</p>
+<p>Routers hold a series of regular expressions that determine
+which controllers are called. Each controller is given as a tuple-pair
+of regular expression and controller.</p>
+<dl class="attribute">
+<dt id="rowan.core.controllers.router.Router.children">
+<tt class="descname">children</tt><a class="headerlink" href="#rowan.core.controllers.router.Router.children" title="Permalink to this definition">¶</a></dt>
+<dd>A list of the controllers registered with this router.</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="error-handling">
+<h2>Error Handling<a class="headerlink" href="#error-handling" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">Basic Controllers</a><ul>
+<li><a class="reference external" href="#fallback">Fallback</a></li>
+<li><a class="reference external" href="#parameter-setting">Parameter Setting</a></li>
+<li><a class="reference external" href="#routing-urls">Routing URLS</a><ul>
+<li><a class="reference external" href="#module-rowan.core.controllers.router">API</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#error-handling">Error Handling</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="tree.html"
+                                  title="previous chapter">The Rowan Tree</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="http.html"
+                                  title="next chapter">Requests, Responses and Errors</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="http.html" title="Requests, Responses and Errors"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tree.html" title="The Rowan Tree"
+             >previous</a> |</li>
+        <li><a href="index.html">Rowan v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Ian Millington.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>

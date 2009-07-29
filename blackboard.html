@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The Blackboard &mdash; Rowan v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Rowan v0.1 documentation" href="index.html" />
+    <link rel="prev" title="Application" href="application.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="application.html" title="Application"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Rowan v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-blackboard">
+<h1>The Blackboard<a class="headerlink" href="#the-blackboard" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-rowan.core.utils.blackboard">
+<h2>API<a class="headerlink" href="#module-rowan.core.utils.blackboard" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="rowan.core.utils.blackboard.Blackboard">
+<em class="property">
+class </em><tt class="descclassname">rowan.core.utils.blackboard.</tt><tt class="descname">Blackboard</tt><a class="headerlink" href="#rowan.core.utils.blackboard.Blackboard" title="Permalink to this definition">¶</a></dt>
+<dd><p>A data store who&#8217;s value updates are reversable.</p>
+<p>This is intended to be used on its own, and as a base class of various 
+other data storage classes, such as the HttpRequest object passed
+to controllers.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">Blackboard</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">b</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mf">2</span><span class="p">):</span> 
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">b</span><span class="o">.</span><span class="n">foo</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">print</span> <span class="n">b</span><span class="o">.</span><span class="n">foo</span>
+<span class="gt">Traceback (most recent call last):</span>
+    <span class="o">...</span>
+<span class="nc">AttributeError</span>: <span class="n-Identifier">&#39;Blackboard&#39; object has no attribute &#39;foo&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">b</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">foo__bar</span><span class="o">=</span><span class="mf">2</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">b</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">bar</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">print</span> <span class="n">b</span><span class="o">.</span><span class="n">foo</span><span class="o">.</span><span class="n">bar</span>
+<span class="go">Blackboard</span>
+<span class="go">&lt;type &#39;int&#39;&gt;</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="rowan.core.utils.blackboard.Blackboard.set">
+<tt class="descname">set</tt><big>(</big><em>*args</em>, <em>**kwds</em><big>)</big><a class="headerlink" href="#rowan.core.utils.blackboard.Blackboard.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>A context for temporarily setting values in the request.</p>
+<p>Use this method as part of a with statement to make sure
+that any changes you make to the request are limited to the nodes
+further down the tree. The keyword arguments for this method
+are the settings you want to change. Keywords can be given in
+<tt class="docutils literal"><span class="pre">a__b</span></tt> format, where the <tt class="docutils literal"><span class="pre">__</span></tt> indicates nesting. So <tt class="docutils literal"><span class="pre">a__b=2</span></tt> 
+finds the <tt class="docutils literal"><span class="pre">a</span></tt> property of this blackboard and looks in that object 
+for a property called <tt class="docutils literal"><span class="pre">b</span></tt>, which it sets to 2. These nested objects
+don&#8217;t need to be blackboards, the blackboard will manage any
+kind of object at that point.</p>
+<p>If a setting isn&#8217;t already present, it will be created by
+this blackboard, intermediate objects given with nested keys
+will be created as empty blackboards, if they don&#8217;t already exist.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">The Blackboard</a><ul>
+<li><a class="reference external" href="#module-rowan.core.utils.blackboard">API</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="application.html"
+                                  title="previous chapter">Application</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="application.html" title="Application"
+             >previous</a> |</li>
+        <li><a href="index.html">Rowan v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Ian Millington.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>

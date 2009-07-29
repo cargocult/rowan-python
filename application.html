@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Application &mdash; Rowan v0.1 documentation</title>
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Rowan v0.1 documentation" href="index.html" />
+    <link rel="next" title="The Blackboard" href="blackboard.html" />
+    <link rel="prev" title="Requests, Responses and Errors" href="http.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="blackboard.html" title="The Blackboard"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="http.html" title="Requests, Responses and Errors"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Rowan v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="application">
+<h1>Application<a class="headerlink" href="#application" title="Permalink to this headline">¶</a></h1>
+<p>A Rowan Tree can&#8217;t directly work with WSGI - it doesn&#8217;t use a WSGI compliant
+API. To connect a WSGI request to a Rowan Tree we use the <tt class="xref docutils literal"><span class="pre">Application</span></tt>
+class.</p>
+<p>Applications are fully WSGI compliant, and they hold a single root controller
+for the Rowan tree. When requests arrive via WSGI, the application creates a
+<a title="rowan.core.http.HttpRequest" class="reference external" href="http.html#rowan.core.http.HttpRequest"><tt class="xref docutils literal"><span class="pre">HttpRequest</span></tt></a>  object, and passes it to the root
+controller. It then takes the <a title="rowan.core.http.HttpResponse" class="reference external" href="http.html#rowan.core.http.HttpResponse"><tt class="xref docutils literal"><span class="pre">HttpResponse</span></tt></a> class
+that is returned and converts it into the correct WSGI call (i.e. to
+<tt class="xref docutils literal"><span class="pre">start_response()</span></tt>).</p>
+<p>Applications also have a convenience web-server built in, that can be started
+by calling their <a title="rowan.core.application.Application.simple_serve" class="reference internal" href="#rowan.core.application.Application.simple_serve"><tt class="xref docutils literal"><span class="pre">simple_serve()</span></tt></a>
+method. This is a non-production-safe webserver that uses Python&#8217;s built
+in <tt class="xref docutils literal"><span class="pre">wsgiref.simpleserver.makeserver()</span></tt> function.</p>
+<div class="section" id="module-rowan.core.application">
+<h2>API<a class="headerlink" href="#module-rowan.core.application" title="Permalink to this headline">¶</a></h2>
+<p>This module contains a WSGI-compliant base class from which a complete
+site hangs. The elements of the site itself are made up of controllers.</p>
+<dl class="class">
+<dt id="rowan.core.application.Application">
+<em class="property">
+class </em><tt class="descclassname">rowan.core.application.</tt><tt class="descname">Application</tt><big>(</big><em>controller</em><big>)</big><a class="headerlink" href="#rowan.core.application.Application" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles the top level logic for running a web application. This is
+normally the object you pass to the server as your WSGI application. It 
+acts as an interface between WSGI&#8217;s calling API and our internal 
+request/response format. Pass the top level request/response handler
+into the constructor.</p>
+<dl class="method">
+<dt id="rowan.core.application.Application.simple_serve">
+<tt class="descname">simple_serve</tt><big>(</big><em>host='localhost'</em>, <em>port=8000</em><big>)</big><a class="headerlink" href="#rowan.core.application.Application.simple_serve" title="Permalink to this definition">¶</a></dt>
+<dd>Sets up a development WSGI webserver at the given location, serving
+this application.</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">Application</a><ul>
+<li><a class="reference external" href="#module-rowan.core.application">API</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="http.html"
+                                  title="previous chapter">Requests, Responses and Errors</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="blackboard.html"
+                                  title="next chapter">The Blackboard</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="blackboard.html" title="The Blackboard"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="http.html" title="Requests, Responses and Errors"
+             >previous</a> |</li>
+        <li><a href="index.html">Rowan v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Ian Millington.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>
