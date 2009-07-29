@@ -8,7 +8,13 @@ class ErrorHandler(object):
     
     This responds to error messages by outputting an error
     page. It is given a controller that it will try to call, and will only
-    respond if the controller fails to generate a response.
+    respond if the controller fails to generate a response. 
+    
+    The error message output by this controller will consist just of a page 
+    with the HTTP status code on it. In production you'll probably want to 
+    render more useful and customized error messages. You could do that 
+    either by subclassing this class, or using a 
+    :class:`~rowan.core.controllers.Fallback` controller.
     """    
     logger = logging.getLogger('controller.ErrorHandler')
     
@@ -27,9 +33,7 @@ class ErrorHandler(object):
                     "%s: %s" % (err.__class__.__name__, str(err))
                     )
         
-        # TODO: Try to find a valid webpage template to render.
-        
-        # Otherwise, render a simple HTML response.        
+        # Render a simple HTML response.        
         return http.HttpResponse(
             "<html><body><h1>%s</h1></body></html>" % error.status_code_string,
             status_code=error.status_code
@@ -37,4 +41,7 @@ class ErrorHandler(object):
 
     def _get_children(self):
         return [self.controller]
-    children = property(_get_children)
+    children = property(
+        _get_children,
+        doc="A list containing this controller's child controller."
+        )

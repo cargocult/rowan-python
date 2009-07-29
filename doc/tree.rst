@@ -17,9 +17,6 @@ children which have children, and so on. In this way the set of
 controllers forms a tree, starting at the root and branching as many
 times as needed.
 
-Directed Graphs
----------------
-
 Strictly speaking, Rowan controllers are not combined in a tree but in
 a rooted directed graph. In a tree, every element has exactly one
 parent. In other words it can be reached from only one combination of
@@ -68,8 +65,6 @@ algorithms, and is a characteristic of how human beings solve problems
 too.
 
 
-
-
 The Contract
 ************
 
@@ -114,6 +109,11 @@ Note that there is no common base class to inherit from in this
 context, because the only bit of API you need to implement is the
 :meth:`__call__` method. Rowan exclusively uses duck typing rather
 than type checking.
+
+The structure of the controller is very similar to view functions in Django. 
+In Rowan, however, methods never change their signature. They never get
+additional arguments passed in from the URL router. Any additional data
+must be set on the Request context and passed in.
 
 
 Children

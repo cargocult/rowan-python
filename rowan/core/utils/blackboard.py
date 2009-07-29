@@ -30,7 +30,7 @@ class Blackboard(object):
         """
         A context for temporarily setting values in the request.
         
-        Use this method as part of a with statement to make sure
+        Use this method as part of a ``with`` statement to make sure
         that any changes you make to the request are limited to the nodes
         further down the tree. The keyword arguments for this method
         are the settings you want to change. Keywords can be given in

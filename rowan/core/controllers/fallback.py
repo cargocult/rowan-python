@@ -42,4 +42,7 @@ class Fallback(object):
 
     def _get_children(self):
         return self.controllers
-    children = property(_get_children)
+    children = property(
+        _get_children,
+        doc="A list of the controllers registered with this router."
+        )

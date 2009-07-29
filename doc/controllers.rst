@@ -3,6 +3,14 @@
 Basic Controllers
 =================
 
+Rowan provides a basic set of controllers out of the box. These controllers 
+cover the basic compositional needs of a tree structure. There could be
+many tens of other controllers with more specific needs, and even with
+those there would be a large number of controllers that need to be
+written new for each project, because they contain project specific logic.
+
+This set is intended to provide the bare-bones structure.
+
 Fallback
 ********
 
@@ -61,6 +69,12 @@ Error Handling
 The :class:`ErrorHandler` controller usually sits near the root of the
 tree. If its child controller raises an error, it will turn it into a
 response with the same status code.
+
+The output of this controller is therefore guaranteed to be a response
+and not an error (hence the logic of having it at or near the root of the
+tree - certainly before anything that might fail).
+
+The error messages this class returns are deliberately terse.
 
 API
 ---
