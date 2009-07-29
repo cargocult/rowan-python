@@ -21,6 +21,13 @@ API
    :show-inheritance:
    :undoc-members:
 
+
+Internal
+""""""""
+
+This is intended as an internal base-class and shouldn't be used
+outside the framework.
+
 .. autoclass:: rowan.core.http.Statused
    :members:
    :undoc-members:
