@@ -1,7 +1,3 @@
-.. Rowan documentation master file, created by sphinx-quickstart on Wed Jul 29 11:55:54 2009.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Rowan Microframework
 ====================
 
@@ -13,10 +9,10 @@ Using Rowan
 
 .. toctree::
    :maxdepth: 3
+   :numbered:
    
-   mvc
-   tree
-   acknowledgements
+   userguide/mvc
+   userguide/tree
 
 
 Details and API
@@ -25,13 +21,18 @@ Details and API
 .. toctree::
    :maxdepth: 1
    
-   controllers
-   http
-   application
-   blackboard
+   reference/controllers
+   reference/http
+   reference/application
+   reference/blackboard
 
-Indices and Tables
+Other Information
 ------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   acknowledgements
 
 * :ref:`genindex`
 * :ref:`modindex`

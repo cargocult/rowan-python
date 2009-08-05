@@ -1,5 +1,8 @@
+Acknowledgements
+================
+
 Inspiration
-===========
+-----------
 
 Rowan draws its technical inspiration from two sources.
 
@@ -27,9 +30,12 @@ come to use more Jinja and SQLAlchemy for their increased
 flexibility.
 
 
-The name `Rowan <http://en.wikipedia.org/wiki/Rowan>`_ is supposed to
-evoke two things: the fact that the framework is based on a tree
-structure; and the fact there is some magic going on.
+The Name
+--------
+
+The name `Rowan <http://en.wikipedia.org/wiki/Rowan>`_ is supposed to evoke two
+things: the fact that the framework is based on a tree structure; and the fact
+there is some magic (in the good sense, not the bad sense) going on.
 
 Rowan wood is the subject of many myths concerning its magical
 properties and is used for that reason by practitioners of neopagan
