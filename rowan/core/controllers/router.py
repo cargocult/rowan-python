@@ -36,7 +36,7 @@ class Router(object):
             (re.compile(re_string), controller)
             for re_string, controller in mappings
             ]
-        self.controllers = mappings.values()
+        self.controllers = [controller for regex, controller in mappings]
         
     def __call__(self, request):
         self.logger.debug("Routing path: %s" % request.path)
