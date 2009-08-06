@@ -1,8 +1,10 @@
 This example uses both Jinja2 and SQLAlchemy. It is configured to use a
 sqlite3 database by default, but should work with a more complex query string.
 
-The file naming is borrowed from Django, so models are in models.py, individual
-page handlers are in views.py, and the URL routing instructions are in urls.py.
+The file naming is borrowed from Django, so models are in models.py and the URL
+routing instructions are in urls.py. Because we call 'views' something 
+different in Rowan, there is no views.py file - controllers are placed in 
+controllers.py
 
 To create the database tables and populate them with some random initial data,
 run the models.py file as a script. You can then run the server (wsgi.py) and

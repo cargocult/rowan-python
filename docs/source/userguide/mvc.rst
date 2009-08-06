@@ -59,23 +59,22 @@ them to be composed into the trees that give the framework its name.
 Nomenclature
 ------------
 
-MVC is a common paradigm of software development, but unfortunately it
-means very little. It seems to me that everyone I've heard talk about
-MVC has a different idea of exactly why, where and how the dividing
-lines should be drawn.
+MVC is a common paradigm of software development, but unfortunately it is very
+ambiguous. It seems to me that everyone I've heard talk about MVC has a
+different idea of exactly why, where and how the dividing lines between each
+unit should be drawn.
 
-In Django controllers are, confusingly, called 'Views', and what we
-call views are 'Templates' (although some of Django's view code I'd
-also consider to be at the view layer in a MVC structure). I'm
-following roughly the nomenclature of Ruby on Rails. Microsoft
-advocated MVC development for the .NET platform, but its Views include
-a lot of what I call a controller here. And so on...
+In Django, for example, controllers are confusingly called 'views', and what we
+call views are 'templates' (although some of Django's view code I'd also
+consider to be at the view layer in a MVC structure). I'm following roughly the
+nomenclature of Ruby on Rails. Microsoft advocated MVC development for the .NET
+platform, but its Views include a lot of what I call a controller here. And so
+on...
 
-That's not to say that for any particular choice of MVC that things
-are confusing. In Rowan, it is pretty clear where the dividing lines
-between elements are, because the framework delegates both Model code
-and View code to other libraries and makes no requirements how you
-achieve either.
+That's not to say that for any particular choice of MVC that things are
+confusing. In Rowan, it is pretty clear where the dividing lines between
+elements are, because the framework delegates both Model code and View code to
+other libraries and makes no requirements how you achieve either.
 
 Context
 *******
@@ -88,9 +87,12 @@ Some of the context depends on the request itself: the user's
 identity, for example, or the URL they asked for. Other bits of
 context control how the rest of the code should do its job: where on
 the hard-drive the HTML template files are kept, for example, or the
-name of the database to connect to.
+name of the database to connect to. This latter type of context information 
+you might expect to be either found in a configuration or settings file (as 
+in Django), or be dictated by convention and hard-coded into the framework
+(as in Rails).
 
-One of the most powerful (and unusual) features of Rowan is its
+One of the most powerful and unusual features of Rowan is its
 ability to have context change when a request is being processed. In
 Rowan, controllers work together to generate a response for the
 user. One controller can temporarily change or add to the context for

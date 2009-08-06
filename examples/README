@@ -3,13 +3,13 @@ show the framework in operation. Each directory holds a file called wsgi.py
 which can be used from a WSGI compliant interface, or can be run as a 
 script (they boot Python's wsgiref server for testing).
 
-They are intended to be run by executing the wsgi.py cript from the
-top level directory:
+They are intended to be run by executing the wsgi.py script from a 
+command line:
 
 % python examples/one_file/wsgi.py
 
-Each example adds '.' to sys.path, so that the rowan library can be 
-imported.
+Each example tries to find the rowan source code if it hasn't previously
+been placed on the python path.
 
 Each example has a root.py file in which the root controller of the sample is
 defined (called 'root' by convention). If you want to use a sample as part of a

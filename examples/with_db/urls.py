@@ -1,6 +1,6 @@
 from rowan.core.controllers import Router
-import views
+import controllers
 
 master_urls = Router(
-    ('^/$', views.view_blog),
+    ('^/$', controllers.view_blog),
     )

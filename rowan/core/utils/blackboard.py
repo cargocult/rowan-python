@@ -1,3 +1,6 @@
+"""This module provides the :class:`Blackboard` class, the basic structure
+for storing and communicating data and settings in Rowan."""
+
 from __future__ import with_statement
 import contextlib
 

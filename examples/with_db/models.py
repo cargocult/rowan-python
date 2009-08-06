@@ -8,7 +8,8 @@ from sqlalchemy.ext.declarative import declarative_base
 def create_engine():
     """Create the default engine for this set of models."""
     return db.create_engine(
-        'sqlite:///%s/database.db' % os.path.join(os.path.dirname(__file__)), 
+        'sqlite:///%s/database.db' % \
+            os.path.abspath(os.path.join(os.path.dirname(__file__))), 
         echo=True
         )
 
