@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Model, View, Controller and Context &mdash; Rowan v0.1 documentation</title>
+    <link rel="stylesheet" href="../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <link rel="top" title="Rowan v0.1 documentation" href="../index.html" />
+    <link rel="next" title="2. The Rowan Tree" href="tree.html" />
+    <link rel="prev" title="Rowan Microframework" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="tree.html" title="2. The Rowan Tree"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Rowan Microframework"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Rowan v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="model-view-controller-and-context">
+<h1>1. Model, View, Controller and Context<a class="headerlink" href="#model-view-controller-and-context" title="Permalink to this headline">¶</a></h1>
+<p>Rowan is an MVC based web-framework. That means it splits its code
+into three concerns: the model, the view and the controller.</p>
+<div class="section" id="mvc">
+<h2>1.1. MVC<a class="headerlink" href="#mvc" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="the-model">
+<h3>1.1.1. The Model<a class="headerlink" href="#the-model" title="Permalink to this headline">¶</a></h3>
+<p>The model holds the data for a web-application. It consists of the
+code to talk to the database, to store and validate data and the
+retrieve it when it is needed. You&#8217;ll typically need to write model
+code, but you won&#8217;t use the Rowan library directly to do so. Rowan
+provides no model-layer.</p>
+<p>I&#8217;d suggest you use either Python&#8217;s basic database API, or a fully
+featured Object Relational Mapping system such as SQL Alchemy.</p>
+</div>
+<div class="section" id="the-view">
+<h3>1.1.2. The View<a class="headerlink" href="#the-view" title="Permalink to this headline">¶</a></h3>
+<p>The view controls what pages on the site should look and feel
+like. This includes both the visuals, and the user experience
+concerns.</p>
+<p>Again, like the model layer, you&#8217;ll have to write lots of view code
+for any reasonable web application. And again, you&#8217;ll not use Rowan to
+do that.</p>
+<p>There are lots of options for libraries that can generate nice HTML /
+XML code according to templates you specify. I use Jinja2, which is based
+on Django&#8217;s templating language.</p>
+</div>
+<div class="section" id="the-controller">
+<h3>1.1.3. The Controller<a class="headerlink" href="#the-controller" title="Permalink to this headline">¶</a></h3>
+<p>This third element <em>is</em> what you&#8217;ll use Rowan to write. Controllers
+are the central point of responsibility for marshalling content in the
+model layer into representations in the view layer.</p>
+<p>They are used in two contexts: some controllers can be asked to
+display appropriate information. They query that information from the
+model layer, choose a suitable format from the view layer, and output
+the merged data. Other controllers receieve data from the user (as a
+result of a form-submission, for example, or from an API call), and
+write that data out to the model layer, then send some confirmation or
+other data out through the view layer.</p>
+<p>Controllers control the web-application. They respond to a request
+(with or without data) and generate a response. This request-response
+paradigm is what makes Rowan&#8217;s controllers very powerful, and allows
+them to be composed into the trees that give the framework its name.</p>
+</div>
+<div class="section" id="nomenclature">
+<h3>1.1.4. Nomenclature<a class="headerlink" href="#nomenclature" title="Permalink to this headline">¶</a></h3>
+<p>MVC is a common paradigm of software development, but unfortunately it is very
+ambiguous. It seems to me that everyone I&#8217;ve heard talk about MVC has a
+different idea of exactly why, where and how the dividing lines between each
+unit should be drawn.</p>
+<p>In Django, for example, controllers are confusingly called &#8216;views&#8217;, and what we
+call views are &#8216;templates&#8217; (although some of Django&#8217;s view code I&#8217;d also
+consider to be at the view layer in a MVC structure). I&#8217;m following roughly the
+nomenclature of Ruby on Rails. Microsoft advocated MVC development for the .NET
+platform, but its Views include a lot of what I call a controller here. And so
+on...</p>
+<p>That&#8217;s not to say that for any particular choice of MVC that things are
+confusing. In Rowan, it is pretty clear where the dividing lines between
+elements are, because the framework delegates both Model code and View code to
+other libraries and makes no requirements how you achieve either.</p>
+</div>
+</div>
+<div class="section" id="context">
+<h2>1.2. Context<a class="headerlink" href="#context" title="Permalink to this headline">¶</a></h2>
+<p>The context isn&#8217;t code you have to write, it is the name for the
+settings and properties that are in effect when a controller is asked
+to generate a response.</p>
+<p>Some of the context depends on the request itself: the user&#8217;s
+identity, for example, or the URL they asked for. Other bits of
+context control how the rest of the code should do its job: where on
+the hard-drive the HTML template files are kept, for example, or the
+name of the database to connect to. This latter type of context information
+you might expect to be either found in a configuration or settings file (as
+in Django), or be dictated by convention and hard-coded into the framework
+(as in Rails).</p>
+<p>One of the most powerful and unusual features of Rowan is its
+ability to have context change when a request is being processed. In
+Rowan, controllers work together to generate a response for the
+user. One controller can temporarily change or add to the context for
+its collaborators.</p>
+<p>This makes it easier to build applications that are reusable, because
+they don&#8217;t typically have to worry about having the correct settings
+configured globally - they can just adjust the context in the way they
+need and those adjustments will be temporary and not affect any other
+part of the code.</p>
+<p>The next section, on the Rowan Tree, has more details on how this
+happens.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">1. Model, View, Controller and Context</a><ul>
+<li><a class="reference external" href="#mvc">1.1. MVC</a><ul>
+<li><a class="reference external" href="#the-model">1.1.1. The Model</a></li>
+<li><a class="reference external" href="#the-view">1.1.2. The View</a></li>
+<li><a class="reference external" href="#the-controller">1.1.3. The Controller</a></li>
+<li><a class="reference external" href="#nomenclature">1.1.4. Nomenclature</a></li>
+</ul>
+</li>
+<li><a class="reference external" href="#context">1.2. Context</a></li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="../index.html"
+                                  title="previous chapter">Rowan Microframework</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="tree.html"
+                                  title="next chapter">2. The Rowan Tree</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tree.html" title="2. The Rowan Tree"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Rowan Microframework"
+             >previous</a> |</li>
+        <li><a href="../index.html">Rowan v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Ian Millington.
+      Last updated on 2010-02-28.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>

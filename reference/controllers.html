@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Basic Controllers &mdash; Rowan v0.1 documentation</title>
+    <link rel="stylesheet" href="../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <link rel="top" title="Rowan v0.1 documentation" href="../index.html" />
+    <link rel="next" title="Requests, Responses and Errors" href="http.html" />
+    <link rel="prev" title="2. The Rowan Tree" href="../userguide/tree.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="http.html" title="Requests, Responses and Errors"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../userguide/tree.html" title="2. The Rowan Tree"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Rowan v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-rowan.core.controllers.error_handler">
+<h1>Basic Controllers<a class="headerlink" href="#module-rowan.core.controllers.error_handler" title="Permalink to this headline">¶</a></h1>
+<p>Rowan provides a basic set of controllers out of the box. These controllers
+cover the basic compositional needs of a tree structure. There could be
+many tens of other controllers with more specific needs, and even with
+those there would be a large number of controllers that need to be
+written new for each project, because they contain project specific logic.</p>
+<p>This set is intended to provide the bare-bones structure.</p>
+<dl class="class">
+<dt id="rowan.core.controllers.fallback.Fallback">
+<em class="property">
+class </em><tt class="descclassname">rowan.core.controllers.fallback.</tt><tt class="descname">Fallback</tt><big>(</big><em>*controllers</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#rowan.core.controllers.fallback.Fallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref docutils literal"><span class="pre">object</span></tt></p>
+<p>Tries to use a set of controllers in turn.</p>
+<p>The first controller in the given list that succeeds will have
+its response used. If no controllers succeed, then Feedback will
+raise the last error it came across.</p>
+<p>Takes one possible keyword argument &#8216;status_codes&#8217;. If given then
+it should be a list of numeric HTTP status codes. This fallback will only 
+go through its normal fallback behavior for errors with status codes 
+matching those given. Other error codes will be reported immediately.
+This allows you to build fallbacks that only fallback on 404 errors,
+for example. Note that responses are always returned, their status code
+is never checked.</p>
+<dl class="attribute">
+<dt id="rowan.core.controllers.fallback.Fallback.children">
+<tt class="descname">children</tt><a class="headerlink" href="#rowan.core.controllers.fallback.Fallback.children" title="Permalink to this definition">¶</a></dt>
+<dd>A list of the controllers registered with this router.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="rowan.core.controllers.set_params.SetParams">
+<em class="property">
+class </em><tt class="descclassname">rowan.core.controllers.set_params.</tt><tt class="descname">SetParams</tt><big>(</big><em>controller</em>, <em>**kws</em><big>)</big><a class="headerlink" href="#rowan.core.controllers.set_params.SetParams" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref docutils literal"><span class="pre">object</span></tt></p>
+<p>A controller that sets parameters in its subtree.</p>
+<p>When you use this class, you pass in a child controller. This controller
+sets the parameters that need to change in the <tt class="xref docutils literal"><span class="pre">HttpRequest</span></tt>, then
+delegate to the child controller.</p>
+<p>The parameter change is carried out using a <cite>with</cite> statement, using
+the <a title="rowan.core.utils.blackboard.Blackboard.set" class="reference external" href="blackboard.html#rowan.core.utils.blackboard.Blackboard.set"><tt class="xref docutils literal"><span class="pre">set()</span></tt></a> method of the
+<tt class="xref docutils literal"><span class="pre">Blackboard</span></tt> class, so the changes are reversed before the
+controller finishes processing, even if an error is raised further 
+down the tree.</p>
+<dl class="attribute">
+<dt id="rowan.core.controllers.set_params.SetParams.children">
+<tt class="descname">children</tt><a class="headerlink" href="#rowan.core.controllers.set_params.SetParams.children" title="Permalink to this definition">¶</a></dt>
+<dd>A list containing the controller that is delegated to.</dd></dl>
+
+</dd></dl>
+
+<p>This module defines a controller to map URLs to other controllers using 
+regular expressions.</p>
+<dl class="class">
+<dt id="rowan.core.controllers.router.Router">
+<em class="property">
+class </em><tt class="descclassname">rowan.core.controllers.router.</tt><tt class="descname">Router</tt><big>(</big><em>*mappings</em><big>)</big><a class="headerlink" href="#rowan.core.controllers.router.Router" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref docutils literal"><span class="pre">object</span></tt></p>
+<p>Dispatches requests based on the requested path.</p>
+<p>Routers hold a series of regular expressions that determine
+which controllers are called. Each controller is given as a tuple-pair
+of regular expression and controller.</p>
+<p>Any groups in the regular expression are added to a context property 
+called &#8216;router_args&#8217;, any named groups are placed in a property called 
+&#8216;router_kws&#8217;. If several routers are found in the same branch of the
+tree, both these properties will grow as new groups are found.</p>
+<p>Finally, the path in the request object is rewritten to remove everything
+from the start of the path to the end of the match. This means that
+you can have a router listening for a common prefix (such as a section
+of the site), followed by another listening for individual pages
+within that section, without having the section name repeated for each
+entry in the second router.</p>
+<dl class="attribute">
+<dt id="rowan.core.controllers.router.Router.children">
+<tt class="descname">children</tt><a class="headerlink" href="#rowan.core.controllers.router.Router.children" title="Permalink to this definition">¶</a></dt>
+<dd>A list of the controllers registered with this router.</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="rowan.core.controllers.error_handler.ErrorHandler">
+<em class="property">
+class </em><tt class="descclassname">rowan.core.controllers.error_handler.</tt><tt class="descname">ErrorHandler</tt><big>(</big><em>controller</em><big>)</big><a class="headerlink" href="#rowan.core.controllers.error_handler.ErrorHandler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref docutils literal"><span class="pre">object</span></tt></p>
+<p>Catches errors and generates a valid error message.</p>
+<p>This responds to error messages by outputting an error
+page. It is given a controller that it will try to call, and will only
+respond if the controller fails to generate a response.</p>
+<p>The error message output by this controller will consist just of a page 
+with the HTTP status code on it. In production you&#8217;ll probably want to 
+render more useful and customized error messages. You could do that 
+either by subclassing this class, or using a 
+<tt class="xref docutils literal"><span class="pre">Fallback</span></tt> controller.</p>
+<dl class="attribute">
+<dt id="rowan.core.controllers.error_handler.ErrorHandler.children">
+<tt class="descname">children</tt><a class="headerlink" href="#rowan.core.controllers.error_handler.ErrorHandler.children" title="Permalink to this definition">¶</a></dt>
+<dd>A list containing this controller&#8217;s child controller.</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="../userguide/tree.html"
+                                  title="previous chapter">2. The Rowan Tree</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="http.html"
+                                  title="next chapter">Requests, Responses and Errors</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="http.html" title="Requests, Responses and Errors"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../userguide/tree.html" title="2. The Rowan Tree"
+             >previous</a> |</li>
+        <li><a href="../index.html">Rowan v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Ian Millington.
+      Last updated on 2010-02-28.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>

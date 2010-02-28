@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2. The Rowan Tree &mdash; Rowan v0.1 documentation</title>
+    <link rel="stylesheet" href="../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_MODINDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <link rel="top" title="Rowan v0.1 documentation" href="../index.html" />
+    <link rel="next" title="Basic Controllers" href="../reference/controllers.html" />
+    <link rel="prev" title="1. Model, View, Controller and Context" href="mvc.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="../reference/controllers.html" title="Basic Controllers"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="mvc.html" title="1. Model, View, Controller and Context"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">Rowan v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-rowan-tree">
+<h1>2. The Rowan Tree<a class="headerlink" href="#the-rowan-tree" title="Permalink to this headline">¶</a></h1>
+<p>Controllers in Rowan are composed into a tree. The first controller in
+the tree (called the &#8216;root&#8217;), is responsible for handling <em>all</em>
+requests that come in and for generating <em>all</em> responses. It is the
+central port of call for the framework.</p>
+<p>Because you&#8217;re unlikely to want the same response for all requests,
+the root controller will normally keep track of one or more delegate
+controllers (normally called its &#8220;children&#8221;). When a request comes in,
+it can decide which of its children should handle the request, and
+passes off responsibility to them.</p>
+<p>This process can continue to any depth, so controllers can have
+children which have children, and so on. In this way the set of
+controllers forms a tree, starting at the root and branching as many
+times as needed.</p>
+<p>Strictly speaking, Rowan controllers are not combined in a tree but in
+a rooted directed graph. In a tree, every element has exactly one
+parent. In other words it can be reached from only one combination of
+branches.</p>
+<p>In Rowan one controller can be a child of any number of parents, so it
+can be reached from more than one route through the tree.</p>
+<p>This is useful because it means that you can have one controller
+called with different contexts. You might have a controller that can
+output a page with a user&#8217;s profile on it, for example. It appears in
+the tree twice, once associated with a URL which is publically
+viewable, and once associated with a URL which is part of the user&#8217;s
+private pages. In the latter case extra controllers in the tree work
+out if the user is logged in or not, and set properties in the context
+to say who the user is. Then the profile-controller can simply check
+these bits of context data and determine how to display itself,
+customizing its appearance depending on who is viewing it.</p>
+<p>Rowan doesn&#8217;t prevent you from looping in circles in the tree either
+(so one controller is its own ancestor), but this can cause infinite
+loops when processing the tree and isn&#8217;t recommended unless you really
+know why you need to do that.</p>
+<div class="section" id="how-the-tree-is-used">
+<h2>2.1. How the Tree is Used<a class="headerlink" href="#how-the-tree-is-used" title="Permalink to this headline">¶</a></h2>
+<p>Tree structures are commonly used in algorithms that need to make
+decisions. In Artificial Intelligence there are many tree or tree-like
+structures: Decision Trees, Behavior Trees, and the Rete algorithm
+(for Expert Systems), are a few more common examples.</p>
+<p>Rowan uses an algorithm that is based on Behavior Trees. The root
+controller of the tree is asked to carry out the whole action. It can
+decide to respond, or to delegate to further controllers, and so on
+down the tree. If at any point this process can&#8217;t continue (a leaf
+node is reached, but it can&#8217;t generate a response), then the process
+bubbles back up the tree. Some controllers trap this failure and try a
+different child, so the process begins to bubble down again.</p>
+<p>In algorithmic terms this is called &#8216;backtracking&#8217;: trying to find
+another way to reach a goal (in this case the goal is to respond
+sensibly to the user). Backtracking is a central feature of many AI
+algorithms, and is a characteristic of how human beings solve problems
+too.</p>
+</div>
+<div class="section" id="the-contract">
+<h2>2.2. The Contract<a class="headerlink" href="#the-contract" title="Permalink to this headline">¶</a></h2>
+<p>Rowan allows any combination of controllers to be put together to make
+the tree. This works because each controller has the same structure,
+or contract. Controllers can therefore be reused where ever they are
+needed in the tree <a class="footnote-reference" href="#f1" id="id1">[1]</a>.</p>
+<div class="section" id="request-and-response">
+<h3>2.2.1. Request and Response<a class="headerlink" href="#request-and-response" title="Permalink to this headline">¶</a></h3>
+<p>Each controller is a Python callable that takes a
+<a title="rowan.core.http.HttpRequest" class="reference external" href="../reference/http.html#rowan.core.http.HttpRequest"><tt class="xref docutils literal"><span class="pre">HttpRequest</span></tt></a> object as an argument, and
+either returns a <a title="rowan.core.http.HttpResponse" class="reference external" href="../reference/http.html#rowan.core.http.HttpResponse"><tt class="xref docutils literal"><span class="pre">HttpResponse</span></tt></a> object, or
+raises a <a title="rowan.core.http.HttpError" class="reference external" href="../reference/http.html#rowan.core.http.HttpError"><tt class="xref docutils literal"><span class="pre">HttpError</span></tt></a>. Returning a response
+indicates that the controller has handled the request (even if the
+response it is returning represents some problem, such as a 404
+page):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">my_controller</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">http</span><span class="o">.</span><span class="n">HttpResponse</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Raising an error indicates that something went wrong, but the
+controller isn&#8217;t capable of turning it into a valid response:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">my_controller</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">raise</span> <span class="n">http</span><span class="o">.</span><span class="n">HttpError</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Normally this bubbles up the tree until a controller is found that
+either has some fallback behavior, or else can turn a raised error
+into an error message in a regular <tt class="xref docutils literal"><span class="pre">HttpResponse</span></tt>.</p>
+<p>Because the contract only asks for a python callable it is possible
+(and very common) to use a class with a <tt class="xref docutils literal"><span class="pre">__call__()</span></tt> method,
+rather than a function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MyController</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">http</span><span class="o">.</span><span class="n">HttpResponse</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Note that there is no common base class to inherit from in this
+context, because the only bit of API you need to implement is the
+<tt class="xref docutils literal"><span class="pre">__call__()</span></tt> method. Rowan exclusively uses duck typing rather
+than type checking.</p>
+<p>The structure of the controller is very similar to view functions in Django.
+In Rowan, however, methods never change their signature. They never get
+additional arguments passed in from the URL router. Any additional data
+must be set on the Request context and passed in.</p>
+</div>
+<div class="section" id="children">
+<h3>2.2.2. Children<a class="headerlink" href="#children" title="Permalink to this headline">¶</a></h3>
+<p>The previous section describes the complete extent of the contract for
+leaves in the tree. Controllers that manage a subtree should also have
+a <tt class="xref docutils literal"><span class="pre">children</span></tt> attribute defined on the callable. This should
+return a (possibly empty) list of the controllers it is currently
+managing. This allows the tree to be navigated without executing it,
+and allows special tasks such as diagramming the tree to be
+accomplished.</p>
+<p>Controllers represented by classes with a <tt class="xref docutils literal"><span class="pre">__call__()</span></tt> method can
+simply define a <tt class="xref docutils literal"><span class="pre">children</span></tt> instance attribute or
+property. Controllers represented by functions can use Python&#8217;s
+ability to have function data, as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">view1</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">view2</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+<span class="n">view1</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span><span class="n">view2</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Some controllers may select different children depending on the
+context, in this case the <tt class="xref docutils literal"><span class="pre">children</span></tt> attribute should hold all
+of the possible children.</p>
+<p>In rarer cases there may be an infinite or undecidable set of
+children. In this case the <tt class="xref docutils literal"><span class="pre">children</span></tt> mechanism breaks down, and
+should be omitted.</p>
+<p>Any controller without a <tt class="xref docutils literal"><span class="pre">children</span></tt> attribute is considered to
+be equivalent to having an attribute containing the empty list. So
+there&#8217;s no need to add the attribute to the tree&#8217;s leaves.</p>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="f1" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>This is sometimes colloquially called <a class="reference external" href="http://en.wikipedia.org/wiki/Turles_all_the_way_down">Turtles all the Way
+Down</a>. Simon
+Willison was the first I came across using this phrase to talk
+about recursive web-frameworks.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <h3><a href="../index.html">Table Of Contents</a></h3>
+            <ul>
+<li><a class="reference external" href="">2. The Rowan Tree</a><ul>
+<li><a class="reference external" href="#how-the-tree-is-used">2.1. How the Tree is Used</a></li>
+<li><a class="reference external" href="#the-contract">2.2. The Contract</a><ul>
+<li><a class="reference external" href="#request-and-response">2.2.1. Request and Response</a></li>
+<li><a class="reference external" href="#children">2.2.2. Children</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            <h4>Previous topic</h4>
+            <p class="topless"><a href="mvc.html"
+                                  title="previous chapter">1. Model, View, Controller and Context</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="../reference/controllers.html"
+                                  title="next chapter">Basic Controllers</a></p>
+          <div id="searchbox" style="display: none">
+            <h3>Quick search</h3>
+              <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" size="18" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+              </form>
+              <p class="searchtip" style="font-size: 90%">
+              Enter search terms or a module, class or function name.
+              </p>
+          </div>
+          <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../modindex.html" title="Global Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../reference/controllers.html" title="Basic Controllers"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="mvc.html" title="1. Model, View, Controller and Context"
+             >previous</a> |</li>
+        <li><a href="../index.html">Rowan v0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+      &copy; Copyright 2009, Ian Millington.
+      Last updated on 2010-02-28.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
+    </div>
+  </body>
+</html>

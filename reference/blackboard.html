@@ -6,20 +6,21 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>The Blackboard &mdash; Rowan v0.1 documentation</title>
-    <link rel="stylesheet" href="static/default.css" type="text/css" />
-    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '',
+        URL_ROOT:    '../',
         VERSION:     '0.1',
         COLLAPSE_MODINDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="static/jquery.js"></script>
-    <script type="text/javascript" src="static/doctools.js"></script>
-    <link rel="top" title="Rowan v0.1 documentation" href="index.html" />
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+    <link rel="top" title="Rowan v0.1 documentation" href="../index.html" />
+    <link rel="next" title="Acknowledgements" href="../acknowledgements.html" />
     <link rel="prev" title="Application" href="application.html" /> 
   </head>
   <body>
@@ -27,15 +28,18 @@
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
+          <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
+          <a href="../modindex.html" title="Global Module Index"
              accesskey="M">modules</a> |</li>
+        <li class="right" >
+          <a href="../acknowledgements.html" title="Acknowledgements"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="application.html" title="Application"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">Rowan v0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">Rowan v0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -44,10 +48,10 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="the-blackboard">
-<h1>The Blackboard<a class="headerlink" href="#the-blackboard" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-rowan.core.utils.blackboard">
-<h2>API<a class="headerlink" href="#module-rowan.core.utils.blackboard" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="module-rowan.core.utils.blackboard">
+<h1>The Blackboard<a class="headerlink" href="#module-rowan.core.utils.blackboard" title="Permalink to this headline">¶</a></h1>
+<p>This module provides the <a title="rowan.core.utils.blackboard.Blackboard" class="reference internal" href="#rowan.core.utils.blackboard.Blackboard"><tt class="xref docutils literal"><span class="pre">Blackboard</span></tt></a> class, the basic structure
+for storing and communicating data and settings in Rowan.</p>
 <dl class="class">
 <dt id="rowan.core.utils.blackboard.Blackboard">
 <em class="property">
@@ -77,7 +81,7 @@ to controllers.</p>
 <dt id="rowan.core.utils.blackboard.Blackboard.set">
 <tt class="descname">set</tt><big>(</big><em>*args</em>, <em>**kwds</em><big>)</big><a class="headerlink" href="#rowan.core.utils.blackboard.Blackboard.set" title="Permalink to this definition">¶</a></dt>
 <dd><p>A context for temporarily setting values in the request.</p>
-<p>Use this method as part of a with statement to make sure
+<p>Use this method as part of a <tt class="docutils literal"><span class="pre">with</span></tt> statement to make sure
 that any changes you make to the request are limited to the nodes
 further down the tree. The keyword arguments for this method
 are the settings you want to change. Keywords can be given in
@@ -94,7 +98,6 @@ will be created as empty blackboards, if they don&#8217;t already exist.</p>
 </dd></dl>
 
 </div>
-</div>
 
 
           </div>
@@ -102,20 +105,15 @@ will be created as empty blackboards, if they don&#8217;t already exist.</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-            <h3><a href="index.html">Table Of Contents</a></h3>
-            <ul>
-<li><a class="reference external" href="">The Blackboard</a><ul>
-<li><a class="reference external" href="#module-rowan.core.utils.blackboard">API</a></li>
-</ul>
-</li>
-</ul>
-
             <h4>Previous topic</h4>
             <p class="topless"><a href="application.html"
                                   title="previous chapter">Application</a></p>
+            <h4>Next topic</h4>
+            <p class="topless"><a href="../acknowledgements.html"
+                                  title="next chapter">Acknowledgements</a></p>
           <div id="searchbox" style="display: none">
             <h3>Quick search</h3>
-              <form class="search" action="search.html" method="get">
+              <form class="search" action="../search.html" method="get">
                 <input type="text" name="q" size="18" />
                 <input type="submit" value="Go" />
                 <input type="hidden" name="check_keywords" value="yes" />
@@ -134,19 +132,23 @@ will be created as empty blackboards, if they don&#8217;t already exist.</p>
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
+          <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="modindex.html" title="Global Module Index"
+          <a href="../modindex.html" title="Global Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="../acknowledgements.html" title="Acknowledgements"
+             >next</a> |</li>
         <li class="right" >
           <a href="application.html" title="Application"
              >previous</a> |</li>
-        <li><a href="index.html">Rowan v0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">Rowan v0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
       &copy; Copyright 2009, Ian Millington.
+      Last updated on 2010-02-28.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 0.6.2.
     </div>
   </body>
