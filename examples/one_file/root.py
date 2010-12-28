@@ -2,8 +2,8 @@ import os
 import logging
 import jinja2
 
-from rowan.core import http
-from rowan.core.controllers import *
+from rowan import http
+from rowan.controllers import *
 
 # View functions
 def greet_someone(request):
@@ -21,7 +21,7 @@ def shock_someone(request):
 
 
 # Build the root of this application
-def _create_root_controller():    
+def _create_root_controller():
     # Create the environment and template loader
     template_path = os.path.join(os.path.split(__file__)[0], 'templates')
     environment = jinja2.Environment(
@@ -37,20 +37,20 @@ def _create_root_controller():
     shock_urls = Router(
         (r'^/boo/', shock_someone)
         )
-        
+
     site = ErrorHandler(Fallback(
         greeting_urls,
         SetParams(
-            shock_urls, 
+            shock_urls,
             settings__shock='Boo'
             ),
         status_codes=[404]
         ))
-        
-    root = SetParams(site, 
-        settings__shock='loud shouting', 
+
+    root = SetParams(site,
+        settings__shock='loud shouting',
         services__templates=environment
         )
     return root
-    
-root = _create_root_controller()    
+
+root = _create_root_controller()

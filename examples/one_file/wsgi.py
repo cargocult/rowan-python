@@ -1,6 +1,6 @@
-# Standard preamble to add the rowan package to the Python path if it hasn't
-# been installed yet (i.e. if we're just working in a checkout of the sourec
-# tree).
+# Standard preamble to add the rowan package to the Python path if it
+# hasn't been installed yet (i.e. if we're just working with an
+# example in a checkout of the source tree).
 if __name__ == '__main__':
     try:
         import rowan
@@ -12,13 +12,17 @@ if __name__ == '__main__':
             ))
 
 # Content for this example.
-from rowan.core.application import Application
+from rowan.application import Application
 from root import root
 application = Application(root)
 
+def main():
+    # Listen for the correct level of logging output
+    import logging
+    logging.basicConfig(level=logging.WARNING)
+    application.simple_serve()
+
 # A debugging server
 if __name__ == '__main__':
-    # Listen for all logging output
-    import logging
-    logging.basicConfig(level=logging.INFO)
-    application.simple_serve()
+    from rowan.utils import autoreload
+    autoreload.main(main)

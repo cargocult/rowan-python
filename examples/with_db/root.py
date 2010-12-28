@@ -5,8 +5,8 @@ import logging
 import jinja2
 import sqlalchemy
 
-from rowan.core import http
-from rowan.core.controllers import *
+from rowan import http
+from rowan.controllers import *
 
 import urls
 import models
@@ -18,14 +18,14 @@ def _create_root_node():
     templates = jinja2.Environment(
         loader=jinja2.FileSystemLoader(template_path)
         )
-        
+
     session_class = models.create_session_class()
 
     # Create the top level tree nodes.
     master_urls = urls.master_urls
     error_handler = ErrorHandler(master_urls)
     return SetParams(
-        error_handler, 
+        error_handler,
         services__templates=templates,
         services__db=session_class
         )

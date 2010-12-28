@@ -1,4 +1,4 @@
-from rowan.core.controllers import Router
+from rowan.controllers import Router
 import controllers
 
 master_urls = Router(
