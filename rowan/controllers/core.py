@@ -79,7 +79,7 @@ class SetParams(base.Wrapper):
         with request.set(**self.kws):
             return self.controller(request)
 
-class Fallback(base.Chooser):
+class Fallback(base.Selector):
     """
     Tries to use a set of controllers in turn.
 
@@ -117,7 +117,7 @@ class Fallback(base.Chooser):
         self.get_logger().debug("No more valid controllers - returning.")
         raise err
 
-class Router(base.LoggingController):
+class Router(base.BaseController):
     """
     Dispatches requests based on the requested path.
 

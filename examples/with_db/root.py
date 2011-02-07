@@ -7,6 +7,7 @@ import sqlalchemy
 
 from rowan import http
 from rowan.controllers import *
+from rowan import db
 
 import urls
 import models
@@ -19,15 +20,19 @@ def _create_root_node():
         loader=jinja2.FileSystemLoader(template_path)
         )
 
-    session_class = models.create_session_class()
+    connection_string = 'sqlite:///%s/database.db' % \
+        os.path.abspath(os.path.join(os.path.dirname(__file__)))
 
     # Create the top level tree nodes.
-    master_urls = urls.master_urls
-    error_handler = ErrorHandler(master_urls)
-    return SetParams(
-        error_handler,
-        services__templates=templates,
-        services__db=session_class
+    root = SetParams(
+        ErrorHandler(
+            db.SQLAlchemyMiddleware(
+                urls.master_urls,
+                connection_string=connection_string
+                )
+            ),
+        services__templates=templates
         )
+    return root
 
 root = _create_root_node()

@@ -27,13 +27,15 @@ class SessionMiddleware(base.Wrapper):
             if session_data:
                 assert session_data['type'] == "session"
 
+                ip = request.REQUEST["REMOTE_ADDR"]
+
                 # Time-out sessions, and check for IP-hacking.
                 if session_data['expires'] < time():
-                    # TODO: Log this failure to help with IP blacklisting.
+                    self.get_logger().warning("Expired session from %s" % ip)
                     session_data = None
 
                 elif session_data['ip'] != request.REQUEST["REMOTE_ADDR"]:
-                    # TODO: Log this failure to help with IP blacklisting.
+                    self.get_logger().warning("Mismatched IP from %s" % ip)
                     session_data = None
 
                 else:
@@ -41,9 +43,7 @@ class SessionMiddleware(base.Wrapper):
                     make_new_session = False
 
             else:
-                # TODO: We've got an unknown session key, log this request to
-                # help with IP blacklisting.
-                pass
+                self.get_logger().warning("Unknown session from %s" % ip)
 
         if make_new_session:
             # Create a session, we know we have no user.
@@ -147,7 +147,7 @@ class APIKeyMiddleware(base.Wrapper):
                     # Save the api data if we need to.
                     if request.api.dirty:
                         request.db.api.save(request['api'])
-                        request.apit.save()
+                        request.api.save()
 
                     return result
                 else:

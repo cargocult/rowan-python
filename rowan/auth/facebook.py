@@ -7,13 +7,8 @@ import rowan.controllers as controllers
 import rowan.http as http
 
 FACEBOOK_OAUTH = {
-    # These are application specific and need to be set accordingly.
-    "client_id": "163829496992881",
-    "client_secret": "8866c6fbdd72186a2e125921d7977381",
-
     # These should be fine, unless Facebook changes its API
     "host": "graph.facebook.com",
-    "callback": "http://localhost:7000/auth/facebook/done/",
 
     "user_authorization": "/oauth/authorize",
     "access_token": "/oauth/access_token",
@@ -22,15 +17,17 @@ FACEBOOK_OAUTH = {
 class FacebookOAuthError(Exception): pass
 
 class FacebookAuthChannel(base.AuthChannel):
-    """Encapsulates the handling of Facebook's authentication data and
-    its storage in our database structure."""
-
+    """
+    Encapsulates the handling of Facebook's authentication data and
+    its storage in a database.
+    """
     def get_channel_key(self):
         return "facebook"
 
     def create_session_data(self):
         return {
             'access_token': self.data['access_token'],
+            'permissions': self.data['permissions']
             }
 
     def create_user_data(self):
@@ -51,13 +48,16 @@ class FacebookAuthChannel(base.AuthChannel):
             )
 
 def facebook_begin_auth(request):
-    """Initiate the authentication against the Facebook oauth2 server."""
+    """
+    Initiate the authentication against the Facebook oauth2 server.
+    """
     # Redirect the user to the Facebook login screen
     host = FACEBOOK_OAUTH['host']
     action = FACEBOOK_OAUTH['user_authorization']
     params = dict(
-        client_id=FACEBOOK_OAUTH['client_id'],
-        redirect_uri=FACEBOOK_OAUTH['callback']
+        client_id=request.auth.facebook['client_id'],
+        redirect_uri=request.auth.facebook['redirect_uri'],
+        scope=request.auth.facebook['permissions']
         )
     url = "https://%s%s?%s" % (
         host, action, urllib.urlencode(params)
@@ -65,38 +65,42 @@ def facebook_begin_auth(request):
     return http.Http302(location=url)
 
 def facebook_end_auth(request):
-    """This is called by Facebook when the user has granted permission to
-    the app."""
-    
+    """
+    This is called by Facebook when the user has granted permission to
+    the app.
+    """
     host = FACEBOOK_OAUTH['host']
     action = FACEBOOK_OAUTH['access_token']
     params = dict(
-        client_id=FACEBOOK_OAUTH['client_id'],
-        redirect_uri=FACEBOOK_OAUTH['callback'],
-        client_secret=FACEBOOK_OAUTH['client_secret'],
+        client_id=request.auth.facebook['client_id'],
+        redirect_uri=request.auth.facebook['redirect_uri'],
+        client_secret=request.auth.facebook['client_secret'],
         code=request.query_params['code'][0]
         )
     response = urllib.urlopen(
-        "https://%s%s?%s" % (host, action,
-            urllib.urlencode(params))).read()
+        "https://%s%s?%s" % (host, action, urllib.urlencode(params))
+        ).read()
     response = urlparse.parse_qs(response)
     access_token = response['access_token'][-1]
-    
+
     action = FACEBOOK_OAUTH['profile']
-    
+
     profile = json.load(urllib.urlopen(
                 "https://%s%s?%s" % (host, action,
                 urllib.urlencode(dict(access_token=access_token)))))
-    print profile
 
-    data = dict(access_token=access_token,
-        uid=profile['id'], name=profile['name'])
-    
+    data = dict(
+        access_token=access_token,
+        permissions=request.auth.facebook['permissions'],
+        uid=profile['id'],
+        name=profile['name']
+        )
+
     auth = FacebookAuthChannel(data)
-    # auth.complete_authentication(request.db, request.session)
-    
+    auth.complete_authentication(request.db, request.session)
+
     # Redirect somewhere useful
-    return http.Http302(location="/")
+    return http.Http302(location=request.auth.facebook['complete_uri'])
 
 # Holds all the Facebook related authentication urls.
 facebook_router = controllers.Router(

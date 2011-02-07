@@ -9,33 +9,21 @@ import rowan.controllers as controllers
 import rowan.http as http
 
 TWITTER_OAUTH = {
-    # These are application specific and need to be set accordingly.
-    "consumer_key": "Db5cXiAIHjmzqNwmlddaMg",
-    "consumer_secret": "gwzJ7AAUXMXsvwAz3T5VELoJSpnZSWcfiP1DAMjdDA",
-
     # These should be fine, unless twitter changes its API
     "host": "api.twitter.com",
     "callback": "http://localhost:8000/auth/twitter/done/",
 
-    "request_token": {
-        "resource": "/oauth/request_token",
-        "method": "POST",
-        },
-    "user_authorization": {
-        "resource": "/oauth/authorize",
-        "method": "GET"
-        },
-    "access_token": {
-        "resource": "/oauth/access_token",
-        "method": "POST"
-        }
+    "request_token": dict(resource="/oauth/request_token", method="POST"),
+    "user_authorization": dict(resource="/oauth/authorize", method="GET"),
+    "access_token": dict(resource="/oauth/access_token", method="POST")
     }
 class TwitterOAuthError(Exception): pass
 
 class TwitterAuthChannel(base.AuthChannel):
-    """Encapsulates the handling of twitters authentication data and
-    its storage in our database structure."""
-
+    """
+    Encapsulates the handling of twitters authentication data and its
+    storage in a database.
+    """
     def get_channel_key(self):
         return "twitter"
 
@@ -62,14 +50,14 @@ class TwitterAuthChannel(base.AuthChannel):
             {'twitter_id': self.data['user_id']}
             )
 
-consumer = oauth.Consumer(
-    TWITTER_OAUTH['consumer_key'],
-    TWITTER_OAUTH['consumer_secret']
-    )
-
 def twitter_begin_auth(request):
-    """Initiate the authentication against the twitter oauth
-    server."""
+    """
+    Initiate the authentication against the twitter oauth server.
+    """
+    consumer = oauth.Consumer(
+        request.auth.twitter['consumer_key'],
+        request.auth.twitter['consumer_secret']
+        )
     client = oauth.Client(consumer)
 
     action = TWITTER_OAUTH['request_token']
@@ -105,6 +93,10 @@ def twitter_end_auth(request):
         request.session['twitter']['secret']
         )
     token.set_verifier(request.query_params['oauth_verifier'])
+    consumer = oauth.Consumer(
+        request.auth.twitter['consumer_key'],
+        request.auth.twitter['consumer_secret']
+        )
     client = oauth.Client(consumer, token)
 
     # Get the permanent token data from the above verifier.
@@ -121,7 +113,7 @@ def twitter_end_auth(request):
         auth.complete_authentication(request.db, request.session)
 
     # Redirect somewhere useful
-    return http.Http302(location="/")
+    return http.Http302(location=request.auth.twitter['complete_uri'])
 
 # Holds all the twitter related authentication urls.
 twitter_router = controllers.Router(

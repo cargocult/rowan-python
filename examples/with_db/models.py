@@ -5,19 +5,6 @@ import sqlalchemy as db
 import sqlalchemy.orm as orm
 from sqlalchemy.ext.declarative import declarative_base
 
-def create_engine():
-    """Create the default engine for this set of models."""
-    return db.create_engine(
-        'sqlite:///%s/database.db' % \
-            os.path.abspath(os.path.join(os.path.dirname(__file__))),
-        echo=True
-        )
-
-def create_session_class():
-    """Create a class that we can use to instantiate new sessions."""
-    return db.orm.sessionmaker(bind=create_engine())
-
-
 # This application's models:
 Base = declarative_base()
 
@@ -86,10 +73,21 @@ class Comment(Base):
 if __name__ == '__main__':
     import random
 
+    def create_engine():
+        """Create the default engine for this set of models."""
+        return db.create_engine(
+            'sqlite:///%s/database.db' % \
+                os.path.abspath(os.path.join(os.path.dirname(__file__))),
+            echo=True
+            )
+
+    def create_session_class():
+        """Create a class that we can use to instantiate new sessions."""
+        return db.orm.sessionmaker(bind=create_engine())
+
     # Build the database
     engine = create_engine()
     Base.metadata.create_all(engine)
-
 
     # Create a couple of random bits of data
     session = create_session_class()()
@@ -119,7 +117,6 @@ if __name__ == '__main__':
 
         # And a couple of categories
         entry.categories = random.sample(categories, random.randint(0,3))
-
 
     # Send the transaction, if we're done anything.
     if session.dirty or session.new:

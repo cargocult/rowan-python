@@ -10,8 +10,7 @@ def view_blog(request):
     logging.getLogger('view_blog').debug('Called')
 
     # Look up the entries.
-    session = request.services.db()
-    entries = session.query(models.BlogEntry).order_by(
+    entries = request.db.sqlalchemy.query(models.BlogEntry).order_by(
         sqlalchemy.desc(models.BlogEntry.date)
         )[:5]
 

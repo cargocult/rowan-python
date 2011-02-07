@@ -2,49 +2,48 @@ import rowan.controllers.base as base
 
 # ----------------------------------------------------------------------------
 
-import pymongo
-
-class DBMiddleware(base.Wrapper):
+class MongoDBMiddleware(base.Wrapper):
     """
     Wraps another controller, setting up the mongo database before
-    delegation. The database is housed in the .db property of the
+    delegation. The database is housed in the .db.mongo property of the
     request.
     """
+    @classmethod
+    def import_dependencies(cls):
+        global pymongo
+        import pymongo
+
     def __init__(self, controller,
                  server="localhost", port=27017, db="test"):
         super(DBMiddleware, self).__init__(controller)
         self.server = server
         self.port = port
         self.db = db
+        self.connection = pymongo.Connection(self.server, self.port)
 
     def __call__(self, request):
-        connection = pymongo.Connection(self.server, self.port)
-        with request.set(db=connection[self.db]):
+        with request.set(db__mongo=self.connection[self.db]):
             return self.controller(request)
 
 # ----------------------------------------------------------------------------
 
-import sqlalchemy as sql
-import sqlalchemy.orm as orm
-
-def get_sql_engine(connection_string):
-    """Creates an sql database engine. This is a separate function so
-    it can also be called from separate modules without loading the
-    middleware.
-    """
-    return sql.create_engine(connection_string, echo=True)
-
-class SQLMiddleware(base.Wrapper):
+class SQLAlchemyMiddleware(base.Wrapper):
     """Wraps another controller, setting up the sql database before
-    delegation. The database is housed in the .sql property of the
-    request.
+    delegation. The database is housed in the .db.sqlalechmy property of
+    the request.
     """
+    @classmethod
+    def import_dependencies(cls):
+        global sql, orm
+        import sqlalchemy as sql
+        import sqlalchemy.orm as orm
+
     def __init__(self, controller, connection_string="sqlite:///database.db"):
-        super(SQLMiddleware, self).__init__(controller)
+        super(SQLAlchemyMiddleware, self).__init__(controller)
         self.connection_string = connection_string
 
     def __call__(self, request):
-        engine = get_sql_engine(self.connection_string)
-        with request.set(sql=orm.sessionmaker(bind=engine)()):
+        engine = sql.create_engine(self.connection_string, echo=True)
+        with request.set(db__sqlalchemy=orm.sessionmaker(bind=engine)()):
             return self.controller(request)
 

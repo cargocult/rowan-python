@@ -1,9 +1,26 @@
 import os
+import urllib2
 
 import rowan.http as http
 import base
 
-class ContentServer(base.LoggingController):
+class ProxyServer(base.BaseController):
+    """
+    A controller that proxies data from a remote url.
+    """
+    def __call__(self, request):
+        print request.path
+        req = urllib2.Request(
+            request.path,
+            headers={'X-Forwarded-For':request.REQUEST['REMOTE_ADDR']}
+            )
+        response = urllib2.urlopen(req)
+        content = response.read()
+        return http.HttpResponse(
+            content, content_type=response.info().gettype()
+            )
+
+class ContentServer(base.BaseController):
     """A controller that serves content from the disk. This is not
     normally advisable for production use, but can be useful while
     debugging to have content served correctly."""

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Standard preamble to add the rowan package to the Python path if it
 # hasn't been installed yet (i.e. if we're just working with an
 # example in a checkout of the source tree).
