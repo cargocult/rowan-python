@@ -15,7 +15,7 @@ class MongoDBMiddleware(base.Wrapper):
 
     def __init__(self, controller,
                  server="localhost", port=27017, db="test"):
-        super(DBMiddleware, self).__init__(controller)
+        super(MongoDBMiddleware, self).__init__(controller)
         self.server = server
         self.port = port
         self.db = db

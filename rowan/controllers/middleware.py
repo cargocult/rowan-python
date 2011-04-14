@@ -23,7 +23,9 @@ class SessionMiddleware(base.Wrapper):
         if session_id:
 
             # Look up the session
-            session_data = request.db.session.find_one({"id": session_id})
+            session_data = request.db.mongo.session.find_one(
+                {"id": session_id}
+                )
             if session_data:
                 assert session_data['type'] == "session"
 
@@ -69,7 +71,7 @@ class SessionMiddleware(base.Wrapper):
         # Finally save the session (this needs to be done always, to
         # keep the expiry up to date).
         session_data['expires'] = time() + 3600
-        request.db.session.save(session_data)
+        request.db.mongo.session.save(session_data)
 
         return result
 
@@ -89,7 +91,7 @@ class UserMiddleware(base.Wrapper):
         user_obj = None
         if user_id:
             # Get the user object associated with this session.
-            user_obj = request.db.user.find_one({"id":user_id})
+            user_obj = request.db.mongo.user.find_one({"id":user_id})
             if not user_obj:
                 # We had a user-id but it is not valid, so remove it.
                 del request.session['user_id']
@@ -102,7 +104,7 @@ class UserMiddleware(base.Wrapper):
 
         # Save if modified
         if user_obj and user_obj.dirty:
-            request.db.user.save(user_obj)
+            request.db.mongo.user.save(user_obj)
             user_obj.clean()
 
         return result
@@ -133,7 +135,7 @@ class APIKeyMiddleware(base.Wrapper):
                 # Find the api key in the database matching the given
                 # domain. So we can fail by either not having the key, or
                 # not having the domain.
-                api_data = request.db.api.find_one(
+                api_data = request.db.mongo.api.find_one(
                     {"id": api_key, "domains": from_location_domain}
                     )
                 if api_data:
@@ -146,7 +148,7 @@ class APIKeyMiddleware(base.Wrapper):
 
                     # Save the api data if we need to.
                     if request.api.dirty:
-                        request.db.api.save(request['api'])
+                        request.db.mongo.api.save(request['api'])
                         request.api.save()
 
                     return result

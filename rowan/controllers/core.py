@@ -34,19 +34,19 @@ class ErrorHandler(base.Wrapper):
         except BaseException, err:
             # Always handle our own errors.
             if isinstance(err, http.HttpError):
-                self.get_logger().debug("Handling error: %s" % str(err))
+                self.get_logger().info("Handling error: %s" % str(err))
                 error = err
 
             # Optionally handle any error.
             elif self.handle_system_errors:
-                self.get_logger().debug("Handling error: %s" % str(err))
+                self.get_logger().info("Handling error: %s" % str(err))
                 error = http.Http500(
                     "%s: %s" % (err.__class__.__name__, str(err))
                     )
 
             # Otherwise raise the error so it appears in stderr.
             else:
-                self.get_logger().debug("Ignoring error: %s" % str(err))
+                self.get_logger().warning("Ignoring error: %s" % str(err))
                 raise
 
         # Render a simple HTML response.
